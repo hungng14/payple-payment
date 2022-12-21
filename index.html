@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://democpay.payple.kr/js/cpay.payple.1.0.1.js"></script>
+  </head>
+  <body>
+    <h1>Hello world</h1>
+    <button id="payment-btn">Payment process</button>
+
+    <script>
+      $(document).ready(() => {
+        $("#payment-btn").on("click", async (e) => {
+          try {
+            const partnerAuthen = await fetch("/authentication-partner", {
+              method: "POST",
+            }).then((res) => res.json());
+            console.log(partnerAuthen);
+            const obj = new Object();
+            obj.PCD_PAY_TYPE = "card";
+            obj.PCD_PAY_WORK = "PAY";
+            obj.PCD_CARD_VER = "01";
+            obj.PCD_PAYER_NO = 1234;
+            obj.PCD_PAYER_NAME = "Joe Dohn";
+            obj.PCD_PAYER_HP = "01012345678";
+            obj.PCD_PAYER_EMAIL = "hrdnipro14@gmail.com";
+            obj.PCD_PAY_GOODS = "Product: IPHONE 14";
+            obj.PCD_PAY_TOTAL = 1000;
+            obj.PCD_PAY_ISTAX = "Y";
+            obj.PCD_PAY_TAXTOTAL = 10;
+            obj.PCD_AUTH_KEY = partnerAuthen.data.AuthKey;
+            obj.PCD_PAY_URL = partnerAuthen.data.return_url;
+            obj.callbackFunction = (result) => {
+              console.log("result", result);
+            };
+            //   obj.PCD_RST_URL = "card";
+            debugger;
+            const result = PaypleCpayAuthCheck(obj);
+            console.log('result', result);
+            e.preventDefault();
+          } catch (error) {
+            console.log("error", error);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
