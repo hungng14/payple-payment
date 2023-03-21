@@ -25,7 +25,7 @@ app.post("/authentication-partner", async (req, res) => {
   const result = await axios.post(PAYPLE_URL, account, {
     headers: {
       "Content-Type": "application/json",
-      referer: "http://localhost:3456/link-referer",
+      referer: "http://localhost:34564/link-referer",
     },
   });
 
